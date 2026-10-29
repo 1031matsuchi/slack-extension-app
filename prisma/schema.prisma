@@ -7,8 +7,7 @@ datasource db {
   provider = "mysql"
 }
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 // サンプル：ユーザー情報テーブル
 model sample_users {

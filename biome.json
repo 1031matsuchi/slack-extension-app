@@ -3,7 +3,7 @@
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,
-    "includes": ["**"],
+    "includes": ["**/*.js", "**/*.json"],
     "attributePosition": "auto",
     "indentStyle": "space",
     "indentWidth": 2,
@@ -13,11 +13,6 @@
   "javascript": {
     "formatter": {
       "quoteStyle": "single"
-    }
-  },
-  "markdown": {
-    "formatter": {
-      "enabled": false
     }
   },
   "linter": {
