@@ -3,11 +3,19 @@
 
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
+datasource db {
+  provider = "mysql"
+}
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
 }
-
-datasource db {
-  provider = "mysql"
+// サンプル：ユーザー情報テーブル
+model sample_users {
+  id          Int      @id @default(autoincrement())
+  slackUserId String   @unique // Slack のユーザーID (例: U12345678)
+  userName    String   // ユーザー名
+  greetCount  Int      @default(0) // 挨拶された回数
+  createdAt   DateTime @default(now()) // 登録日時
+  updatedAt   DateTime @updatedAt // 更新日時
 }
