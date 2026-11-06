@@ -42,3 +42,5 @@
   - `apps/index.js`: `apps/` 直下のアプリを自動検出・初期化するローダー
   - `apps/<アプリ名>/`: 各 Bot の `index.js`, `manifest.json`, `listeners/`
 - `scripts/create-app.js`: 新規 Bot 自動生成 CLI
+
+testestesteaset
