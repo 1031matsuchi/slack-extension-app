@@ -57,6 +57,7 @@ cp .env.sample .env
 ```
 
 ※ 初期状態ではトークンに `YOUR_*_TOKEN_HERE` などのプレースホルダーが入っています。この状態の Bot は起動時に自動で安全にスキップされます。
+※ データベース（MySQL / Prisma）を利用する機能の開発を行う場合は、本ガイドの一連の手順を完了した後に [データベース環境構築手順 (wiki-database-setup-guide.md)](./wiki-database-setup-guide.md) を参照して DB の準備を行ってください。
 
 ---
 
