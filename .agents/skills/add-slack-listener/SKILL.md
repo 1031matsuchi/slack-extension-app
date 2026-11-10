@@ -19,7 +19,7 @@ description: >-
 
 ### Gate 1: 対象アプリと Manifest の設計確認
 
-1. 変更対象のアプリ（例: `apps/ma-app-01/`）を特定する。
+1. 変更対象のアプリ（例: `apps/sample-slack-app/`）を特定する。
 2. 追加する機能に応じて `apps/<app-name>/manifest.json` に必要な定義を特定・更新する：
    - `events`: `settings.event_subscriptions.bot_events` および必要な `oauth_config.scopes.bot`
    - `messages`: `channels:history` / `groups:history` / `im:history` 等と `chat:write`

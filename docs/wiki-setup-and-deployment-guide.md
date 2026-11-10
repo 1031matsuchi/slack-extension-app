@@ -99,7 +99,7 @@ npm run create:app sales-support-bot
 
 ## 4. Slack 側でのアプリ登録とトークン発行
 
-各アプリ（例: `apps/ma-app-01/` や新規作成したアプリ）に対応する Slack App を作成します。
+各アプリ（例: `apps/sample-slack-app/` や新規作成したアプリ）に対応する Slack App を作成します。
 
 ### ステップ 1: Manifest からアプリを作成
 
@@ -107,7 +107,7 @@ npm run create:app sales-support-bot
 2. **「Create New App」** をクリックします。
 3. 作成方法の選択で **「From an app manifest」** を選びます。
 4. インストール先のワークスペースを選択します。
-5. **「Enter app manifest below」** の画面で **JSON** タブを選択し、リポジトリ内の `apps/<アプリ名>/manifest.json`（例: `apps/ma-app-01/manifest.json`）の内容をコピー＆ペーストして貼り付けます。
+5. **「Enter app manifest below」** の画面で **JSON** タブを選択し、リポジトリ内の `apps/<アプリ名>/manifest.json`（例: `apps/sample-slack-app/manifest.json`）の内容をコピー＆ペーストして貼り付けます。
 6. 内容を確認し、**「Create」** をクリックします。
 
 ### ステップ 2: App-Level Token（`xapp-...`）の発行
@@ -128,9 +128,9 @@ npm run create:app sales-support-bot
 控えたトークンを、プロジェクト直下の `.env` に設定します。
 
 ```env
-# apps/ma-app-01 用のトークン例
-MA_APP_01_BOT_TOKEN=xoxb-xxxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx
-MA_APP_01_APP_TOKEN=xapp-x-xxxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx
+# apps/sample-slack-app 用のトークン例
+SAMPLE_SLACK_APP_BOT_TOKEN=xoxb-xxxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx
+SAMPLE_SLACK_APP_APP_TOKEN=xapp-x-xxxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 ---
@@ -151,9 +151,9 @@ npm run dev
 ```text
 HTTP server listening on port 3000
 Loading apps from apps directory...
-Found app directory: ma-app-01
-Initializing app: ma-app-01
-⚡️ Bolt app "ma-app-01" is running!
+Found app directory: sample-slack-app
+Initializing app: sample-slack-app
+⚡️ Bolt app "sample-slack-app" is running!
 All configured Slack apps have started successfully!
 ```
 
@@ -281,8 +281,8 @@ git push origin main
 | :--- | :--- | :--- |
 | `NODE_ENV` | `production` | 本番環境モード |
 | `PORT` | `3000` | ヘルスチェックサーバー用ポート |
-| `MA_APP_01_BOT_TOKEN` | `xoxb-...` | アプリ1の Bot トークン |
-| `MA_APP_01_APP_TOKEN` | `xapp-...` | アプリ1の App レベルトークン |
+| `SAMPLE_SLACK_APP_BOT_TOKEN` | `xoxb-...` | アプリ1の Bot トークン |
+| `SAMPLE_SLACK_APP_APP_TOKEN` | `xapp-...` | アプリ1の App レベルトークン |
 | `SALES_SUPPORT_BOT_BOT_TOKEN` | `xoxb-...` | （追加アプリがある場合）Bot トークン |
 | `SALES_SUPPORT_BOT_APP_TOKEN` | `xapp-...` | （追加アプリがある場合）App トークン |
 
@@ -293,7 +293,7 @@ git push origin main
 3. ログに以下が出力され、ステータスが **Live** になればデプロイ成功です：
    ```text
    HTTP server listening on port 3000
-   ⚡️ Bolt app "ma-app-01" is running!
+   ⚡️ Bolt app "sample-slack-app" is running!
    All configured Slack apps have started successfully!
    ```
 

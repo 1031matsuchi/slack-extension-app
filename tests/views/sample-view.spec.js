@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import { beforeEach, describe, it, mock } from 'node:test';
-import { sampleViewCallback } from '../../apps/ma-app-01/listeners/views/sample-view.js';
+import { sampleViewCallback } from '../../apps/sample-slack-app/listeners/views/sample-view.js';
 
 describe('views', () => {
   let fakeAck;

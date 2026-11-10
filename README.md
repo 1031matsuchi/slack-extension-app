@@ -21,9 +21,9 @@
    cp .env.sample .env
    ```
 
-   `apps/ma-app-01` 用の環境変数:
-   - `MA_APP_01_BOT_TOKEN`（または `SLACK_BOT_TOKEN`）: `xoxb-...`
-   - `MA_APP_01_APP_TOKEN`（または `SLACK_APP_TOKEN`）: `xapp-...`
+   `apps/sample-slack-app` 用の環境変数:
+   - `SAMPLE_SLACK_APP_BOT_TOKEN`（または `SLACK_BOT_TOKEN`）: `xoxb-...`
+   - `SAMPLE_SLACK_APP_APP_TOKEN`（または `SLACK_APP_TOKEN`）: `xapp-...`
 
    ※ トークンが未設定またはプレースホルダーのアプリは起動時に安全にスキップされます。
 

@@ -1,6 +1,6 @@
 import { App, FileInstallationStore, LogLevel } from '@slack/bolt';
 import { config } from 'dotenv';
-import { registerListeners } from './apps/ma-app-01/listeners/index.js';
+import { registerListeners } from './apps/sample-slack-app/listeners/index.js';
 
 config();
 

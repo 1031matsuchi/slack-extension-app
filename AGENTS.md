@@ -33,7 +33,7 @@
 
 ## Code Style & Strict Rules（コーディング規約・絶対ルール）
 
-- **Kebab-case filenames**: すべてのファイル名・ディレクトリ名はケバブケース（例: `sample-message.js`, `create-app.js`, `ma-app-01`）で統一してください。
+- **Kebab-case filenames**: すべてのファイル名・ディレクトリ名はケバブケース（例: `sample-message.js`, `create-app.js`, `sample-slack-app`）で統一してください。
 - **Beginner-friendly code comments（初学者に配慮したコード内コメントの記述）**: 開発チームに初学者が多いため、何のためにそのコードを記述しているのか（処理の意図、関数の責務、3秒以内の `ack()` 必須、エラーの隔離理由など）を理解できるよう、JSDocや説明コメント（`//`）を適切に記述してください。
 - **ES Modules**: `"type": "module"` 環境です。`require` ではなく `import` / `export` を使用し、ローカルファイルの相対インポートには必ず `.js` 拡張子を明記してください。Node.js組み込みモジュールは `node:fs`, `node:path`, `node:test` のように `node:` プレフィックスを使用してください。
 - **Biome Formatter**: インデントはスペース2つ、文字列はシングルクォート（`'`）、改行コードは `LF`、最大行幅は `120` 文字です。
