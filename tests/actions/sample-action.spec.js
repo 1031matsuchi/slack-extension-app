@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import { beforeEach, describe, it, mock } from 'node:test';
-import { sampleActionCallback } from '../../apps/ma-app-01/listeners/actions/sample-action.js';
+import { sampleActionCallback } from '../../apps/sample-slack-app/listeners/actions/sample-action.js';
 
 describe('actions', () => {
   let fakeAck;

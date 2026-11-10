@@ -1,9 +1,9 @@
 import assert from 'node:assert';
 import { describe, it } from 'node:test';
 import { loadAllApps } from '../../apps/index.js';
-import { initApp } from '../../apps/ma-app-01/index.js';
+import { initApp } from '../../apps/sample-slack-app/index.js';
 
-describe('ma-app-01 initApp', () => {
+describe('sample-slack-app initApp', () => {
   it('should return null when tokens are missing', () => {
     const result = initApp({ NODE_ENV: 'test' });
     assert.strictEqual(result, null);
@@ -12,8 +12,8 @@ describe('ma-app-01 initApp', () => {
   it('should return null when tokens are placeholder values', () => {
     const result = initApp({
       NODE_ENV: 'test',
-      MA_APP_01_BOT_TOKEN: 'YOUR_MA_APP_01_BOT_TOKEN',
-      MA_APP_01_APP_TOKEN: 'YOUR_MA_APP_01_APP_TOKEN',
+      SAMPLE_SLACK_APP_BOT_TOKEN: 'YOUR_SAMPLE_SLACK_APP_BOT_TOKEN',
+      SAMPLE_SLACK_APP_APP_TOKEN: 'YOUR_SAMPLE_SLACK_APP_APP_TOKEN',
     });
     assert.strictEqual(result, null);
   });
@@ -27,14 +27,14 @@ describe('ma-app-01 initApp', () => {
     assert.strictEqual(result, null);
   });
 
-  it('should return App instance when valid tokens are provided via MA_APP_01 env', () => {
+  it('should return App instance when valid tokens are provided via SAMPLE_SLACK_APP env', () => {
     const result = initApp({
       NODE_ENV: 'test',
-      MA_APP_01_BOT_TOKEN: 'xoxb-valid-test-token',
-      MA_APP_01_APP_TOKEN: 'xapp-valid-test-token',
+      SAMPLE_SLACK_APP_BOT_TOKEN: 'xoxb-valid-test-token',
+      SAMPLE_SLACK_APP_APP_TOKEN: 'xapp-valid-test-token',
     });
     assert.ok(result);
-    assert.strictEqual(result.name, 'ma-app-01');
+    assert.strictEqual(result.name, 'sample-slack-app');
   });
 
   it('should return App instance when valid tokens are provided via SLACK env fallback', () => {
@@ -44,13 +44,13 @@ describe('ma-app-01 initApp', () => {
       SLACK_APP_TOKEN: 'xapp-valid-slack-token',
     });
     assert.ok(result);
-    assert.strictEqual(result.name, 'ma-app-01');
+    assert.strictEqual(result.name, 'sample-slack-app');
   });
 
-  it('should prioritize valid MA_APP_01 token over SLACK token', () => {
+  it('should prioritize valid SAMPLE_SLACK_APP token over SLACK token', () => {
     const result = initApp({
       NODE_ENV: 'test',
-      MA_APP_01_BOT_TOKEN: 'YOUR_PLACEHOLDER',
+      SAMPLE_SLACK_APP_BOT_TOKEN: 'YOUR_PLACEHOLDER',
       SLACK_BOT_TOKEN: 'xoxb-fallback-token',
       SLACK_APP_TOKEN: 'xapp-fallback-token',
     });
@@ -68,10 +68,10 @@ describe('apps loader loadAllApps', () => {
   it('should load configured app when valid tokens are passed', async () => {
     const apps = await loadAllApps({
       NODE_ENV: 'test',
-      MA_APP_01_BOT_TOKEN: 'xoxb-valid-test-token',
-      MA_APP_01_APP_TOKEN: 'xapp-valid-test-token',
+      SAMPLE_SLACK_APP_BOT_TOKEN: 'xoxb-valid-test-token',
+      SAMPLE_SLACK_APP_APP_TOKEN: 'xapp-valid-test-token',
     });
     assert.strictEqual(apps.length, 1);
-    assert.strictEqual(apps[0].name, 'ma-app-01');
+    assert.strictEqual(apps[0].name, 'sample-slack-app');
   });
 });

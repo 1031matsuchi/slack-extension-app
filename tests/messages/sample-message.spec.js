@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import { beforeEach, describe, it, mock } from 'node:test';
-import { sampleMessageCallback } from '../../apps/ma-app-01/listeners/messages/sample-message.js';
+import { sampleMessageCallback } from '../../apps/sample-slack-app/listeners/messages/sample-message.js';
 
 describe('messages', () => {
   let fakeContext;

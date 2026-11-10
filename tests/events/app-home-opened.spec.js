@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import { beforeEach, describe, it, mock } from 'node:test';
-import { appHomeOpenedCallback } from '../../apps/ma-app-01/listeners/events/app-home-opened.js';
+import { appHomeOpenedCallback } from '../../apps/sample-slack-app/listeners/events/app-home-opened.js';
 
 describe('events', () => {
   let fakeClient;
