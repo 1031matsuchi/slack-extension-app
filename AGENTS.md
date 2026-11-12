@@ -21,6 +21,22 @@
   - `listeners/`: Slackイベント・メッセージ・コマンド・アクション・ショートカット・ビューのハンドラー群。
 - `scripts/create-app.js`: `npm run create:app <app-name>` で新規Botの雛形一式と `.env` / `.env.sample` のトークン枠を自動生成するCLIスクリプト。
 - `tests/`: Node.js標準テストランナー（`node:test`, `node:assert`）による単体テスト群（`*.spec.js`）。
+- `lib/prisma.js`: 全Botで共有するPrismaClient。`DATABASE_URL` 未設定時は `null` を返します。
+
+## Documentation Map（ドキュメント構成）
+
+本ファイルがルールの正本です。以下の文書はルールを重複させず、設計の背景・手順を補足します（`CLAUDE.md` / `GEMINI.md` は本ファイルを読み込むだけのエントリです）。
+
+| 文書 | 参照するタイミング |
+| :--- | :--- |
+| [`docs/specs/COMPONENT_SPEC.md`](./docs/specs/COMPONENT_SPEC.md) | システム全体像・技術スタック・境界を把握するとき（設計書群の入口） |
+| [`docs/specs/BASIC_DESIGN.md`](./docs/specs/BASIC_DESIGN.md) | 不変条件・想定利用者・トレードオフに照らして設計判断するとき |
+| [`docs/specs/LIBRARY_ARCHITECTURE_SPEC.md`](./docs/specs/LIBRARY_ARCHITECTURE_SPEC.md) | コードをどのレイヤ（リスナー / サービス / `lib/`）に置くか判断するとき |
+| [`docs/specs/DETAIL_DESIGN.md`](./docs/specs/DETAIL_DESIGN.md) | 環境変数・データモデル・変更時に同時更新すべきファイルを確認するとき |
+| [`docs/specs/PROCESS_DESIGN.md`](./docs/specs/PROCESS_DESIGN.md) | イベント処理フロー・開発・障害対応の手順を確認するとき |
+| [`docs/specs/TEMPLATE.md`](./docs/specs/TEMPLATE.md) | 新機能の仕様書（`SPEC-NNNN-<slug>.md`）を作成するとき |
+| [`docs/guidelines/pr-splitting.md`](./docs/guidelines/pr-splitting.md) | PRの粒度・分割方法を決めるとき |
+| [`private/docs/adr/`](./private/docs/adr/README.md) | 後戻りしにくい設計判断を記録するとき |
 
 ## Commands（主要コマンド）
 
