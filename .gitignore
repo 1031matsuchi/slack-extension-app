@@ -4,3 +4,4 @@
 !.env.sample
 
 /generated/prisma
+/docs/*
