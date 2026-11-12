@@ -4,4 +4,9 @@
 !.env.sample
 
 /generated/prisma
-/docs/*
+/docs/wiki-*.md
+/private/docs/daily/*
+!/private/docs/daily/TEMPLATE.md
+/private/docs/pr/*
+!/private/docs/pr/README.md
+/private/docs/notes/
