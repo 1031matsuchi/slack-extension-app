@@ -9,3 +9,35 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+// 1. 各アプリの OAuth インストールトークン管理
+// 3つのアプリ（appName）を複数ワークスペース（teamId）へ配布してもトークンが衝突しないよう複合主キーにする
+model SlackInstallation {
+  appName         String   @map("app_name")                     // Slackアプリの名前（例: message-calendar-bot）
+  teamId          String   @map("team_id")                      // インストール先のSlackワークスペースID
+  teamName        String?  @map("team_name")                    // インストール先のSlackワークスペース名
+  enterpriseId    String?  @map("enterprise_id")                // Enterprise Gridの組織ID（通常ワークスペースの場合はnull）
+  botToken        String   @map("bot_token") @db.Text           // ワークスペースごとに発行されたBot用OAuthトークン（xoxb-...）
+  botId           String?  @map("bot_id")                       // インストールされたBotのID
+  botUserId       String?  @map("bot_user_id")                  // インストールされたBotのユーザーID
+  botScopes       String   @map("bot_scopes") @db.Text          // Botに許可されたOAuth権限スコープ一覧
+  installedUserId String?  @map("installed_user_id")            // アプリをインストールしたユーザーのID
+  createdAt       DateTime @default(now()) @map("created_at")   // レコード作成日時（初回インストール日時）
+  updatedAt       DateTime @updatedAt @map("updated_at")        // レコード最終更新日時
+
+  @@id([appName, teamId])
+  @@map("slack_installations")
+}
+
+// 2. ワークスペースごとの Google カレンダー設定（案A: サービスアカウント共有方式）
+// /set-calendar や /set-reminder-channel コマンドで設定されたワークスペース単位の連携先を保持する
+model WorkspaceCalendarConfig {
+  teamId            String   @id @map("team_id")                // 設定対象のSlackワークスペースID
+  googleCalendarId  String   @map("google_calendar_id")         // 連携先のGoogleカレンダーID（メールアドレス形式など）
+  reminderChannelId String?  @map("reminder_channel_id")        // リマインド通知を投稿するSlackチャンネルID
+  updatedByUserId   String?  @map("updated_by_user_id")         // 設定を最後に更新したSlackユーザーのID
+  createdAt         DateTime @default(now()) @map("created_at") // レコード作成日時
+  updatedAt         DateTime @updatedAt @map("updated_at")      // レコード最終更新日時
+
+  @@map("workspace_calendar_configs")
+}
