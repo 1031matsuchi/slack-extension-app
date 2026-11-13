@@ -31,14 +31,17 @@ describe('prisma client module', () => {
     // 有効な接続文字列が与えられた場合にインスタンスが生成されることを確認
     const client = createPrismaClient();
     assert.ok(client);
-    // sample_users モデルへのアクセサーが存在することを確認
-    assert.ok(client.sample_users);
-    assert.strictEqual(typeof client.sample_users.findMany, 'function');
+    // SlackInstallation および WorkspaceCalendarConfig モデルへのアクセサーが存在することを確認
+    assert.ok(client.slackInstallation);
+    assert.strictEqual(typeof client.slackInstallation.findMany, 'function');
+    assert.ok(client.workspaceCalendarConfig);
+    assert.strictEqual(typeof client.workspaceCalendarConfig.findMany, 'function');
   });
 
   it('should export singleton prisma instance', () => {
     // モジュールから直接エクスポートされた prisma インスタンスを確認
     assert.ok(prisma);
-    assert.strictEqual(typeof prisma.sample_users.findMany, 'function');
+    assert.strictEqual(typeof prisma.slackInstallation.findMany, 'function');
+    assert.strictEqual(typeof prisma.workspaceCalendarConfig.findMany, 'function');
   });
 });
