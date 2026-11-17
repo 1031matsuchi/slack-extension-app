@@ -16,19 +16,11 @@
     "bot_user": {
       "display_name": "message-calendar-bot",
       "always_online": true
-    },
-    "slash_commands": [
-      {
-        "command": "/set-calendar",
-        "description": "このワークスペースで連携するGoogleカレンダーIDを設定します",
-        "usage_hint": "<GoogleカレンダーID>",
-        "should_escape": false
-      }
-    ]
+    }
   },
   "oauth_config": {
     "scopes": {
-      "bot": ["channels:history", "groups:history", "reactions:read", "chat:write", "commands"]
+      "bot": ["channels:history", "groups:history", "reactions:read", "chat:write"]
     }
   },
   "settings": {

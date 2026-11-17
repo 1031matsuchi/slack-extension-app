@@ -16,31 +16,11 @@
     "bot_user": {
       "display_name": "calendar-reminder-bot",
       "always_online": true
-    },
-    "slash_commands": [
-      {
-        "command": "/set-calendar",
-        "description": "このワークスペースで連携するGoogleカレンダーIDを設定します",
-        "usage_hint": "<GoogleカレンダーID>",
-        "should_escape": false
-      },
-      {
-        "command": "/set-reminder-channel",
-        "description": "このチャンネルを毎日の予定リマインド通知先に設定します",
-        "usage_hint": "",
-        "should_escape": false
-      },
-      {
-        "command": "/check-today",
-        "description": "本日のGoogleカレンダー予定をその場で確認します",
-        "usage_hint": "",
-        "should_escape": false
-      }
-    ]
+    }
   },
   "oauth_config": {
     "scopes": {
-      "bot": ["chat:write", "commands"]
+      "bot": ["chat:write"]
     }
   },
   "settings": {

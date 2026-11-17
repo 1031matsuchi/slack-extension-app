@@ -1,9 +1,7 @@
-import * as commands from './commands/index.js';
-import * as events from './events/index.js';
+import { registerSetupUiListeners } from '../../../lib/slack-setup-ui.js';
 import * as messages from './messages/index.js';
 
 export const registerListeners = (app) => {
-  commands.register(app);
-  events.register(app);
+  registerSetupUiListeners(app, { appName: 'calendar-reminder-bot', includeReminderOptions: true });
   messages.register(app);
 };

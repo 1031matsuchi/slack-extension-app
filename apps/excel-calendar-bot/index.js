@@ -2,7 +2,7 @@ import { createMultiModeSlackApp } from '../../lib/slack-app-factory.js';
 import { registerListeners } from './listeners/index.js';
 
 const APP_NAME = 'excel-calendar-bot';
-const SCOPES = ['files:read', 'channels:history', 'groups:history', 'chat:write', 'commands'];
+const SCOPES = ['files:read', 'channels:history', 'groups:history', 'chat:write'];
 
 /**
  * excel-calendar-bot を初期化する（OAuth 配布モード / Socket Mode 両対応）

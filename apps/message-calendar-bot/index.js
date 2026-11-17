@@ -2,7 +2,7 @@ import { createMultiModeSlackApp } from '../../lib/slack-app-factory.js';
 import { registerListeners } from './listeners/index.js';
 
 const APP_NAME = 'message-calendar-bot';
-const SCOPES = ['channels:history', 'groups:history', 'reactions:read', 'chat:write', 'commands'];
+const SCOPES = ['channels:history', 'groups:history', 'reactions:read', 'chat:write'];
 
 /**
  * message-calendar-bot を初期化する（OAuth 配布モード / Socket Mode 両対応）
