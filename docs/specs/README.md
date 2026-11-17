@@ -8,7 +8,8 @@
 
 | 文書 | 役割 | 主な読者 |
 | :--- | :--- | :--- |
-| [`COMPONENT_SPEC.md`](COMPONENT_SPEC.md) | 設計書群の入口・システム全体の俯瞰・技術スタック | 全員（最初に読む文書） |
+| [`REQUIREMENTS.md`](REQUIREMENTS.md) | プロジェクト全体の目的・スコープ（対象外含む）・業務要件・機能/非機能要件 | 全員（要件・合意事項の正本） |
+| [`COMPONENT_SPEC.md`](COMPONENT_SPEC.md) | 設計書群の入口・システム全体の俯瞰・技術スタック | 全員（最初に読む設計書） |
 | [`BASIC_DESIGN.md`](BASIC_DESIGN.md) | 目的、利用者、中核ルール（不変条件）、非機能要件、トレードオフ方針 | チームリーダー / 新規参加者 |
 | [`DETAIL_DESIGN.md`](DETAIL_DESIGN.md) | ディレクトリ構成、主要モジュール、環境変数、データモデル、変更時の更新対象 | 開発メンバー / レビュアー |
 | [`LIBRARY_ARCHITECTURE_SPEC.md`](LIBRARY_ARCHITECTURE_SPEC.md) | 各レイヤ（オーケストレーター / ローダー / Bot / リスナー / サービス / 共通ライブラリ）の責務境界と依存ルール | 開発メンバー / レビュアー |
