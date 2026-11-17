@@ -11,11 +11,12 @@ generator client {
 }
 
 // 1. 各アプリの OAuth インストールトークン管理
-// 3つのアプリ（appName）を複数ワークスペース（teamId）へ配布してもトークンが衝突しないよう複合主キーにする
+// 3つのアプリ（appName）を複数ワークスペース（workspaceId）へ配布してもトークンが衝突しないよう複合ユニークキーにする
 model SlackInstallation {
+  id              Int      @id @default(autoincrement())        // 主キー（自動採番ID）
   appName         String   @map("app_name")                     // Slackアプリの名前（例: message-calendar-bot）
-  teamId          String   @map("team_id")                      // インストール先のSlackワークスペースID
-  teamName        String?  @map("team_name")                    // インストール先のSlackワークスペース名
+  workspaceId     String   @map("workspace_id")                 // インストール先のSlackワークスペースID
+  workspaceName   String?  @map("workspace_name")               // インストール先のSlackワークスペース名
   enterpriseId    String?  @map("enterprise_id")                // Enterprise Gridの組織ID（通常ワークスペースの場合はnull）
   botToken        String   @map("bot_token") @db.Text           // ワークスペースごとに発行されたBot用OAuthトークン（xoxb-...）
   botId           String?  @map("bot_id")                       // インストールされたBotのID
@@ -25,14 +26,15 @@ model SlackInstallation {
   createdAt       DateTime @default(now()) @map("created_at")   // レコード作成日時（初回インストール日時）
   updatedAt       DateTime @updatedAt @map("updated_at")        // レコード最終更新日時
 
-  @@id([appName, teamId])
+  @@unique([appName, workspaceId])
   @@map("slack_installations")
 }
 
 // 2. ワークスペースごとの Google カレンダー設定（案A: サービスアカウント共有方式）
 // /set-calendar や /set-reminder-channel コマンドで設定されたワークスペース単位の連携先を保持する
 model WorkspaceCalendarConfig {
-  teamId            String   @id @map("team_id")                // 設定対象のSlackワークスペースID
+  id                Int      @id @default(autoincrement())      // 主キー（自動採番ID）
+  workspaceId       String   @unique @map("workspace_id")       // 設定対象のSlackワークスペースID（ワークスペース単位で一意）
   googleCalendarId  String   @map("google_calendar_id")         // 連携先のGoogleカレンダーID（メールアドレス形式など）
   reminderChannelId String?  @map("reminder_channel_id")        // リマインド通知を投稿するSlackチャンネルID
   updatedByUserId   String?  @map("updated_by_user_id")         // 設定を最後に更新したSlackユーザーのID
