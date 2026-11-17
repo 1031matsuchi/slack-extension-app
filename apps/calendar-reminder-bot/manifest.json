@@ -1,0 +1,57 @@
+{
+  "_metadata": {
+    "major_version": 1,
+    "minor_version": 1
+  },
+  "display_information": {
+    "name": "calendar-reminder-bot",
+    "description": "Googleカレンダーの予定を取得してSlackチャンネルへ定期通知するBot"
+  },
+  "features": {
+    "app_home": {
+      "home_tab_enabled": true,
+      "messages_tab_enabled": false,
+      "messages_tab_read_only_enabled": true
+    },
+    "bot_user": {
+      "display_name": "calendar-reminder-bot",
+      "always_online": true
+    },
+    "slash_commands": [
+      {
+        "command": "/set-calendar",
+        "description": "このワークスペースで連携するGoogleカレンダーIDを設定します",
+        "usage_hint": "<GoogleカレンダーID>",
+        "should_escape": false
+      },
+      {
+        "command": "/set-reminder-channel",
+        "description": "このチャンネルを毎日の予定リマインド通知先に設定します",
+        "usage_hint": "",
+        "should_escape": false
+      },
+      {
+        "command": "/check-today",
+        "description": "本日のGoogleカレンダー予定をその場で確認します",
+        "usage_hint": "",
+        "should_escape": false
+      }
+    ]
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": ["chat:write", "commands"]
+    }
+  },
+  "settings": {
+    "event_subscriptions": {
+      "bot_events": ["app_home_opened"]
+    },
+    "interactivity": {
+      "is_enabled": true
+    },
+    "org_deploy_enabled": true,
+    "socket_mode_enabled": true,
+    "token_rotation_enabled": false
+  }
+}
