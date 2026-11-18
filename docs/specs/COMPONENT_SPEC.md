@@ -18,6 +18,7 @@
 
 | 文書 | 用途 |
 | :--- | :--- |
+| [`REQUIREMENTS.md`](REQUIREMENTS.md) | プロジェクト全体の要件定義書（目的、スコープ、業務要件、機能要件、非機能要件） |
 | [`COMPONENT_SPEC.md`](COMPONENT_SPEC.md) | 本書。設計書群の入口とシステム俯瞰 |
 | [`BASIC_DESIGN.md`](BASIC_DESIGN.md) | 目的、利用者、中核ルール、非機能方針、トレードオフ |
 | [`DETAIL_DESIGN.md`](DETAIL_DESIGN.md) | ディレクトリ構成、主要モジュール、環境変数、データモデル |
