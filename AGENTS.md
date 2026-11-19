@@ -19,7 +19,7 @@
   - `POST /cron/remind`: `routes/cron.js` による日次予定リマインド一斉配信
   - `/slack/<appName>/{install,oauth_redirect,events}`: 各Botの `HTTPReceiver`（OAuth 2.0 認可・Events・Interactivity）への動的ルーティング
 - `apps/index.js`: `apps/` 配下のディレクトリを自動走査し、各アプリの `initApp(env, options)` を呼び出して有効なAppインスタンス配列を返すローダー。
-- `apps/<app-name>/`: 個別のSlack Bot格納ディレクトリ（`message-calendar-bot`, `excel-calendar-bot`, `calendar-reminder-bot`, `sample-slack-app`）。
+- `apps/<app-name>/`: 個別のSlack Bot格納ディレクトリ（`message-calendar-bot`, `excel-calendar-bot`, `calendar-reminder-bot`）。
   - `index.js`: `lib/slack-app-factory.js` を用いて、OAuth 認証情報があれば本番配布モード（`HTTPReceiver`）、Socket Mode トークンがあればローカル開発モード（`SocketMode`）、どちらも未設定または `YOUR_*` プレースホルダーなら `null` を返して安全にスキップします。テスト実行時（`env.NODE_ENV === 'test'`）は `tokenVerificationEnabled: false` として外部API通信を抑止します。
   - `manifest.json`: そのBot固有のSlack App Manifest定義。
   - `listeners/`: Slackイベント・アクション・ビュー等のハンドラー群。
