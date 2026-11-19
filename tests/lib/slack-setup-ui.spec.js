@@ -109,7 +109,7 @@ describe('slack-setup-ui', () => {
 
     registerSetupUiListeners(
       app,
-      { appName: 'excel-calendar-bot', includeReminderOptions: false },
+      { appName: 'message-calendar-bot', includeReminderOptions: false },
       { getWorkspaceCalendarConfig: getConfigMock },
     );
 

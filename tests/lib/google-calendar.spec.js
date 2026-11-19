@@ -4,7 +4,6 @@ import {
   buildGoogleEventResource,
   createCalendarClient,
   getUpcomingEvents,
-  insertBatchEvents,
   insertEvent,
 } from '../../lib/google-calendar.js';
 
@@ -108,41 +107,6 @@ describe('google-calendar', () => {
         ),
       /サービスアカウントに編集権限で共有されているか/,
     );
-  });
-
-  it('should insert batch events and continue even if one item fails', async () => {
-    let callIdx = 0;
-    const insertMock = mock.fn(async (params) => {
-      callIdx += 1;
-      if (callIdx === 2) {
-        throw new Error('Temporary error');
-      }
-      return { data: { id: `evt_${callIdx}`, summary: params.requestBody.summary } };
-    });
-    const fakeCalendar = { events: { insert: insertMock } };
-    const fakePrisma = {
-      workspaceCalendarConfig: {
-        findUnique: mock.fn(async () => ({
-          workspaceId: 'T200',
-          googleCalendarId: 'yearly@group.calendar.google.com',
-        })),
-      },
-    };
-
-    const summary = await insertBatchEvents(
-      'T200',
-      [
-        { title: '行事A', allDay: true, date: '2026-04-01' },
-        { title: '行事B', allDay: true, date: '2026-05-01' },
-        { title: '行事C', allDay: true, date: '2026-06-01' },
-      ],
-      { calendarClient: fakeCalendar, prismaClient: fakePrisma },
-    );
-
-    assert.strictEqual(summary.total, 3);
-    assert.strictEqual(summary.succeeded, 2);
-    assert.strictEqual(summary.failed, 1);
-    assert.strictEqual(summary.errors[0].title, '行事B');
   });
 
   it('should fetch upcoming events for target date in JST', async () => {
