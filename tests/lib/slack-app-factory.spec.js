@@ -51,19 +51,19 @@ describe('slack-app-factory', () => {
 
     const app = createMultiModeSlackApp(
       {
-        appName: 'excel-calendar-bot',
+        appName: 'calendar-reminder-bot',
         scopes: ['chat:write'],
         registerListeners: registerMock,
       },
       {
         NODE_ENV: 'test',
-        EXCEL_CALENDAR_BOT_BOT_TOKEN: 'xoxb-test',
-        EXCEL_CALENDAR_BOT_APP_TOKEN: 'xapp-test',
+        CALENDAR_REMINDER_BOT_BOT_TOKEN: 'xoxb-test',
+        CALENDAR_REMINDER_BOT_APP_TOKEN: 'xapp-test',
       },
     );
 
     assert.ok(app);
-    assert.strictEqual(app.name, 'excel-calendar-bot');
+    assert.strictEqual(app.name, 'calendar-reminder-bot');
     assert.strictEqual(app.mode, 'socket');
     assert.strictEqual(registerMock.mock.callCount(), 1);
   });

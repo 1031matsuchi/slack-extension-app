@@ -49,7 +49,7 @@ describe('slack-installation-store', () => {
 
   it('should fetch installation and format Bolt Installation object', async () => {
     const findUniqueMock = mock.fn(async () => ({
-      appName: 'excel-calendar-bot',
+      appName: 'message-calendar-bot',
       workspaceId: 'T456',
       workspaceName: 'Acme Corp',
       enterpriseId: null,
@@ -60,7 +60,7 @@ describe('slack-installation-store', () => {
       installedUserId: 'U_USER_1',
     }));
     const fakePrisma = { slackInstallation: { findUnique: findUniqueMock } };
-    const store = createPrismaInstallationStore('excel-calendar-bot', fakePrisma);
+    const store = createPrismaInstallationStore('message-calendar-bot', fakePrisma);
 
     const result = await store.fetchInstallation({ teamId: 'T456' });
 
