@@ -19,10 +19,11 @@
 
 ## 新規参加者が読む順序
 
-1. [`wiki-setup-and-deployment-guide.md`](wiki-setup-and-deployment-guide.md) — 環境構築とBotの起動
-2. [`wiki-database-setup-guide.md`](wiki-database-setup-guide.md) — ローカルDB（XAMPP / Prisma）の準備
-3. [`specs/COMPONENT_SPEC.md`](specs/COMPONENT_SPEC.md) — システム全体像（設計書群の入口）
-4. [`../AGENTS.md`](../AGENTS.md) — コーディング規約と完了ゲート
+1. [`project-overview.md`](project-overview.md) — プロジェクトの背景・目的・合意済み方針・現状・未確定事項の全体サマリー
+2. [`wiki-setup-and-deployment-guide.md`](wiki-setup-and-deployment-guide.md) — 環境構築とBotの起動
+3. [`wiki-database-setup-guide.md`](wiki-database-setup-guide.md) — ローカルDB（XAMPP / Prisma）の準備
+4. [`specs/REQUIREMENTS.md`](specs/REQUIREMENTS.md) / [`specs/COMPONENT_SPEC.md`](specs/COMPONENT_SPEC.md) — 要件定義書・設計書群の入口
+5. [`../AGENTS.md`](../AGENTS.md) — コーディング規約と完了ゲート
 
 ## 関連リンク
 
