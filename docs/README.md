@@ -12,16 +12,18 @@
 ## ディレクトリ構成
 
 | パス | 用途 | Git管理 |
-| :--- | :--- | :--- |
-| [`docs/specs/`](specs/README.md) | システム全体の設計書（基本設計・詳細設計・プロセス設計・レイヤ責務）および機能別仕様書（`SPEC-NNNN`） | 管理する |
+| :--- | :--- | :---: |
+| [`docs/plans/`](plans/README.md) | チーム別（GAS 班・Bot 班・リーダー班）の進め方プラン | 管理する |
+| [`docs/specs/`](specs/README.md) | 要件定義書・基本設計書・詳細設計書（軽量ハイブリッド型）およびアーキテクチャ図 | 管理する |
 | [`docs/guidelines/`](guidelines/README.md) | チーム共通の開発ガイドライン（PR分割ガイド等） | 管理する |
 | `docs/wiki-*.md` | GitHub Wiki に掲載するセットアップ・実装手順の原稿 | 管理しない（Wikiが正本） |
 
 ## 新規参加者が読む順序
 
-1. [`wiki-setup-and-deployment-guide.md`](wiki-setup-and-deployment-guide.md) — 環境構築とBotの起動
-2. [`wiki-database-setup-guide.md`](wiki-database-setup-guide.md) — ローカルDB（XAMPP / Prisma）の準備
-3. [`specs/COMPONENT_SPEC.md`](specs/COMPONENT_SPEC.md) — システム全体像（設計書群の入口）
+1. [`../README.md`](../README.md) — 全体概要・技術方針・ローカル環境構築・5名体制開発ガイド
+2. [`plans/README.md`](plans/README.md) — 自分の担当班（GAS 班・Bot 班・リーダー班）の進め方プラン
+3. [`project-overview.md`](project-overview.md) — これまでの経緯・現状・未確定事項（TBD）のサマリー
+3. [`specs/REQUIREMENTS.md`](specs/REQUIREMENTS.md) / [`specs/BASIC_DESIGN.md`](specs/BASIC_DESIGN.md) — 要件定義書・全体基本設計書
 4. [`../AGENTS.md`](../AGENTS.md) — コーディング規約と完了ゲート
 
 ## 関連リンク
@@ -29,4 +31,3 @@
 - AIエージェント共通指示書: [`AGENTS.md`](../AGENTS.md)（`CLAUDE.md` / `GEMINI.md` はこのファイルを読み込むだけのエントリ）
 - タスク別スキル: [`.agents/skills/`](../.agents/skills/)（`.claude/skills/` に同一内容を配置）
 - 開発日報・ADR: [`private/docs/README.md`](../private/docs/README.md)
-

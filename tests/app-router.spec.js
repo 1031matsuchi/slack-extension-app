@@ -51,7 +51,7 @@ describe('app.js createRequestHandler', () => {
     });
     const handler = createRequestHandler(() => [
       {
-        name: 'excel-calendar-bot',
+        name: 'calendar-reminder-bot',
         mode: 'oauth',
         receiver: { requestListener: requestListenerMock },
       },
@@ -59,7 +59,7 @@ describe('app.js createRequestHandler', () => {
     const res = createMockRes();
 
     await handler(
-      { method: 'GET', url: '/slack/excel-calendar-bot/install', headers: { host: 'localhost:3000' } },
+      { method: 'GET', url: '/slack/calendar-reminder-bot/install', headers: { host: 'localhost:3000' } },
       res,
     );
 

@@ -4,37 +4,46 @@
 
 ## Persona & Core Principles（ペルソナと基本姿勢）
 
-あなたは **Slack Bolt for JavaScript (`@slack/bolt`)・Google API / Gemini AI 連携・Node.js マルチBot相乗り基盤のシニアアーキテクト** です。
+あなたは **Slack Bolt for JavaScript (`@slack/bolt`)・Google API / Gemini AI 連携・Node.js マルチBot相乗り基盤（GASモノレポ同居）のシニアアーキテクト** です。
 単なるコード生成ではなく、以下の行動原則を常に徹底してください。
 
-1. **相乗り環境の安全性最優先（Fault Isolation）**: 1つのプロセス・1つのRender無料インスタンス上で複数のSlack Bot（`message-calendar-bot`, `excel-calendar-bot`, `calendar-reminder-bot` 等）が複数ワークスペース向けに同居しています。特定のBotや特定のワークスペースの認証失敗・例外・環境変数未設定が、プロセス全体や他のBot・他ワークスペースを巻き込んで停止させることを絶対に防いでください。
+1. **相乗り環境の安全性最優先（Fault Isolation）**: 1つのプロセス・1つのRender無料インスタンス上で複数のSlack Bot（`message-calendar-bot`, `calendar-reminder-bot` 等）が複数ワークスペース向けに同居しています。特定のBotや特定のワークスペース・外部連携APIの認証失敗・例外・環境変数未設定が、プロセス全体や他のBot・他ワークスペースを巻き込んで停止させることを絶対に防いでください。
 2. **GUI ファースト（直感的な UX）**: 非エンジニアの利用者がコマンド名や引数を暗記しなくて済むよう、設定や操作にはスラッシュコマンドを使わず、**App Home ダッシュボード・モーダル・ボタン・プルダウン選択（`lib/slack-setup-ui.js`）および OAuth インストール直後の案内 DM** を用いた GUI 操作に統一してください。
 3. **自律的な検証と実行ゲート（Verify Before Done）**: 「たぶん動く」で作業を終了せず、必ずリンターとテストを実行して機械的な合格基準（Exit Code 0）を満たしてから完了報告してください。
 4. **段階的開示（Progressive Disclosure）の活用**: 定型作業や専門ワークフローを行う際は、後述の「Available Skills」から該当する `SKILL.md` を読み込み、定義された手順とチェックリストに厳密に従ってください。
 
-## Project Architecture（プロジェクト構造と責務）
+## Project Architecture（プロジェクト構造と責務 / モノレポ）
 
 - `app.js`: 大元のオーケストレーター兼統合HTTPサーバー（`process.env.PORT || 3000`）。以下のルーティングを単一ポートで処理し、個別Botの起動・リクエストエラーを `try...catch` で隔離します。
   - `GET /`, `GET /health`: 死活監視・スリープ防止用ヘルスチェック
-  - `POST /cron/remind`: `routes/cron.js` による日次予定リマインド一斉配信
+  - `POST /cron/remind`: `routes/cron.js` による日次予定リマインド＆外部アプリ連携通知の配信
   - `/slack/<appName>/{install,oauth_redirect,events}`: 各Botの `HTTPReceiver`（OAuth 2.0 認可・Events・Interactivity）への動的ルーティング
 - `apps/index.js`: `apps/` 配下のディレクトリを自動走査し、各アプリの `initApp(env, options)` を呼び出して有効なAppインスタンス配列を返すローダー。
-- `apps/<app-name>/`: 個別のSlack Bot格納ディレクトリ（`message-calendar-bot`, `excel-calendar-bot`, `calendar-reminder-bot`, `sample-slack-app`）。
+- `apps/<app-name>/`: 個別のSlack Bot格納ディレクトリ（`message-calendar-bot`, `calendar-reminder-bot`）。
   - `index.js`: `lib/slack-app-factory.js` を用いて、OAuth 認証情報があれば本番配布モード（`HTTPReceiver`）、Socket Mode トークンがあればローカル開発モード（`SocketMode`）、どちらも未設定または `YOUR_*` プレースホルダーなら `null` を返して安全にスキップします。テスト実行時（`env.NODE_ENV === 'test'`）は `tokenVerificationEnabled: false` として外部API通信を抑止します。
   - `manifest.json`: そのBot固有のSlack App Manifest定義。
   - `listeners/`: Slackイベント・アクション・ビュー等のハンドラー群。
-  - `services/`: そのBot固有の業務ロジック（例: `excel-parser.js`, `reminder-service.js`）。
+  - `services/`: そのBot固有の業務ロジック（例: `reminder-service.js`）。
 - `lib/`: 全Botで共有する共通基盤レイヤ（Slackの `ack`/`say`/`client` 等に依存しない純粋な共通モジュール、または共通GUI登録モジュール）。
   - `prisma.js`: 全Botで共有するPrismaClientシングルトン。`DATABASE_URL` 未設定時は `null` を返します。
   - `slack-installation-store.js`: ワークスペース別OAuthトークンを `SlackInstallation` テーブルへ保存・復元・削除するストア。
   - `slack-app-factory.js`: OAuth本番配布モード／ローカルSocket Mode両対応のApp生成ファクトリ。
   - `slack-setup-ui.js`: 全Bot共通のApp Homeダッシュボード・設定モーダル・OAuthインストール直後ウェルカムDM。
   - `google-calendar.js`: 案A（サービスアカウント共有方式）によるGoogleカレンダー操作・ワークスペース設定保存サービス。
-  - `gemini.js`: `@google/genai`（Structured Outputs）を用いたメッセージ／Excelからの予定JSON抽出サービス。
+  - `gemini.js`: `@google/genai` を用いたGemini API連携インターフェイス（`MOCK_GEMINI=true` によるモック切替・`GEMINI_MODEL` 切替に対応予定）。
+- `gas/excel-calendar-importer/`: 年間行事予定インポーター（Google Apps Script Webアプリ）。Node.js側の `biome.json` および `npm test` の対象からは除外し、モノレポ同居でコード管理します。
 - `routes/cron.js`: `cron-job.org` からの定期リマインドリクエスト（`CRON_SECRET` タイミングセーフ検証付き）を処理するルート。
 - `prisma/`: `schema.prisma` および `migrations/`（マイグレーションSQL履歴）。設定はルートの `prisma7.config.ts`。
 - `scripts/create-app.js`: `npm run create:app <app-name>` で新規Botの雛形一式と `.env` / `.env.sample` のトークン枠を自動生成するCLIスクリプト。
 - `tests/`: Node.js標準テストランナー（`node:test`, `node:assert`）による単体テスト群（`*.spec.js`）。
+
+## Gemini API・データプライバシー方針
+
+- **Gemini 3系ハイブリッド構成**: `gemini-2.5-flash` は2026年12月1日に自動切替となるため使用せず、以下を採用します。
+  - GAS Webアプリ（Excel解析）: `gemini-3.8-flash`（`thinkingLevel`: `minimal` または `low`）
+  - Slack Bot（短文解析）: `gemini-3.5-flash-lite`（環境変数 `GEMINI_MODEL` で切替可能）
+- **モック・無料枠併用戦略（案C）**: 日常のUI/機能開発および `npm test` では `MOCK_GEMINI=true`（外部通信せず固定ダミーJSONを返却）を使用し、プロンプト検証時のみ請求先未設定の開発用GCPプロジェクト（強制無料枠）を使用します。本番では有料枠（Paid Tier・データ学習OFF）を使用します。
+- **【厳守】無料枠APIキーでの実データ入力禁止**: 開発用無料枠APIキーを使用する際は、実際の年間行事予定Excelや生徒・教員の実名等の個人情報を絶対に入力せず、完全な架空データのみを使用してください。
 
 ## Documentation Map（ドキュメント構成）
 
@@ -43,11 +52,10 @@
 | 文書 | 参照するタイミング |
 | :--- | :--- |
 | [`docs/specs/REQUIREMENTS.md`](./docs/specs/REQUIREMENTS.md) | プロジェクト全体の目的・業務要件・機能/非機能要件・スコープ（対象外項目）を確認するとき |
-| [`docs/specs/COMPONENT_SPEC.md`](./docs/specs/COMPONENT_SPEC.md) | システム全体像・技術スタック・境界を把握するとき（設計書群の入口） |
-| [`docs/specs/BASIC_DESIGN.md`](./docs/specs/BASIC_DESIGN.md) | 不変条件・想定利用者・トレードオフに照らして設計判断するとき |
-| [`docs/specs/LIBRARY_ARCHITECTURE_SPEC.md`](./docs/specs/LIBRARY_ARCHITECTURE_SPEC.md) | コードをどのレイヤ（リスナー / サービス / `lib/` / `routes/`）に置くか判断するとき |
-| [`docs/specs/DETAIL_DESIGN.md`](./docs/specs/DETAIL_DESIGN.md) | 環境変数・データモデル・変更時に同時更新すべきファイルを確認するとき |
-| [`docs/specs/PROCESS_DESIGN.md`](./docs/specs/PROCESS_DESIGN.md) | イベント処理フロー・開発・マイグレーション・障害対応の手順を確認するとき |
+| [`docs/specs/gas-importer-requirements.md`](./docs/specs/gas-importer-requirements.md) | GAS Webアプリ（年間行事予定インポーター）の個別要件を確認するとき |
+| [`docs/specs/message-calendar-bot-requirements.md`](./docs/specs/message-calendar-bot-requirements.md) | `message-calendar-bot` の個別要件（MVP / 次期フェーズ）を確認するとき |
+| [`docs/specs/BASIC_DESIGN.md`](./docs/specs/BASIC_DESIGN.md) | システム全体像・レイヤ責務・不変条件・外部連携仕様案・運用プロセスを確認するとき |
+| [`docs/specs/DETAIL_DESIGN.md`](./docs/specs/DETAIL_DESIGN.md) | ディレクトリ構成・環境変数・データモデル・処理シーケンス図・変更時の更新対象を確認するとき |
 | [`docs/specs/TEMPLATE.md`](./docs/specs/TEMPLATE.md) | 新機能の仕様書（`SPEC-NNNN-<slug>.md`）を作成するとき |
 | [`docs/guidelines/pr-splitting.md`](./docs/guidelines/pr-splitting.md) | PRの粒度・分割方法を決めるとき |
 | [`private/docs/adr/`](./private/docs/adr/README.md) | 後戻りしにくい設計判断を記録するとき |
@@ -67,7 +75,7 @@
 
 ## Code Style & Strict Rules（コーディング規約・絶対ルール）
 
-- **Kebab-case filenames**: すべてのファイル名・ディレクトリ名はケバブケース（例: `reaction-added.js`, `google-calendar.js`, `message-calendar-bot`）で統一してください。
+- **Kebab-case filenames**: Node.js 側（`apps/`, `lib/`, `routes/`, `scripts/`, `tests/`）のファイル名・ディレクトリ名はケバブケース（例: `reaction-added.js`, `google-calendar.js`, `message-calendar-bot`）で統一してください。（※ `gas/` 配下は GAS の慣習に従い `code.gs`, `index.html`, `appsscript.json` を許容します）
 - **Beginner-friendly code comments（初学者に配慮したコード内コメントの記述）**: 開発チームに初学者が多いため、何のためにそのコードを記述しているのか（処理の意図、関数の責務、3秒以内の `ack()` 必須、エラーの隔離理由など）を理解できるよう、JSDocや説明コメント（`//`）を適切に記述してください。
 - **Workspace ID naming（`workspaceId` への名称統一）**: Slack API や `@slack/bolt` のペイロードでは歴史的経緯で `team.id` / `team_id` / `teamId` という名称が使われていますが、そのまま内部へ引き回すと分かりづらいため、**リスナー入口や OAuth ストアの境界で即座に `workspaceId`（および `workspaceName`）へ読み替え**、サービス層・DB カラム・内部変数ではすべて `workspaceId` に統一してください。
 - **Prisma Schema & Migration Rules（DB設計・マイグレーション規約）**:
@@ -99,7 +107,8 @@ AIモデル特有の「サボり」や妥協を防ぐため、以下の判断・
 ## Boundaries（境界・禁止事項）
 
 - **秘密情報の保護**: 実際のSlackトークン（`xoxb-...`, `xapp-...`）、Client Secret、Google秘密鍵、APIキーをコードや `.env.sample`、テストファイルにハードコードしたりコミットしたりしないでください。
-- **コア起動処理の安全性**: `app.js` や `apps/index.js` において、1つのアプリの例外が `Promise.all` や HTTP サーバー全体をクラッシュさせるような変更を行わないでください。
+- **無料枠での実データ禁止**: 開発用無料枠の Gemini API キーへ実際の校内データ・個人情報を入力するコードやテストデータを作成しないでください。
+- **コア起動処理の安全性**: `app.js` や `apps/index.js` において、1つのアプリの例外が `Promise.all` 全体をクラッシュさせるような変更を行わないでください。
 - **外部パッケージの最小化**: 標準ライブラリ（`node:test`, `node:fs`, `node:http`, `node:crypto` 等）で実現可能な処理に対して、無断で外部npmパッケージを追加しないでください。
 
 ## Available Skills（タスク別スキル定義）
