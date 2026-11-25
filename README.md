@@ -252,6 +252,7 @@ npm run dev
 | ドキュメント | 内容・参照タイミング |
 | :--- | :--- |
 | [`AGENTS.md`](AGENTS.md) | コーディング規約・DB 規約・完了ゲート・AI エージェント共通指示書（ルールの正本） |
+| [`docs/plans/README.md`](docs/plans/README.md) | 各班（GAS 班・Bot 班・リーダー班）の具体的な進め方プラン・1週間ロードマップ |
 | [`docs/project-overview.md`](docs/project-overview.md) | これまでの経緯・現状・未確定事項（TBD）の全体サマリー |
 | [`docs/README.md`](docs/README.md) | `docs/` 配下の全体索引と新規参加者の閲覧順序 |
 | [`docs/specs/REQUIREMENTS.md`](docs/specs/REQUIREMENTS.md) | プロジェクト全体の要件定義書 |

@@ -13,6 +13,7 @@
 
 | パス | 用途 | Git管理 |
 | :--- | :--- | :---: |
+| [`docs/plans/`](plans/README.md) | チーム別（GAS 班・Bot 班・リーダー班）の進め方プラン | 管理する |
 | [`docs/specs/`](specs/README.md) | 要件定義書・基本設計書・詳細設計書（軽量ハイブリッド型）およびアーキテクチャ図 | 管理する |
 | [`docs/guidelines/`](guidelines/README.md) | チーム共通の開発ガイドライン（PR分割ガイド等） | 管理する |
 | `docs/wiki-*.md` | GitHub Wiki に掲載するセットアップ・実装手順の原稿 | 管理しない（Wikiが正本） |
@@ -20,7 +21,8 @@
 ## 新規参加者が読む順序
 
 1. [`../README.md`](../README.md) — 全体概要・技術方針・ローカル環境構築・5名体制開発ガイド
-2. [`project-overview.md`](project-overview.md) — これまでの経緯・現状・未確定事項（TBD）のサマリー
+2. [`plans/README.md`](plans/README.md) — 自分の担当班（GAS 班・Bot 班・リーダー班）の進め方プラン
+3. [`project-overview.md`](project-overview.md) — これまでの経緯・現状・未確定事項（TBD）のサマリー
 3. [`specs/REQUIREMENTS.md`](specs/REQUIREMENTS.md) / [`specs/BASIC_DESIGN.md`](specs/BASIC_DESIGN.md) — 要件定義書・全体基本設計書
 4. [`../AGENTS.md`](../AGENTS.md) — コーディング規約と完了ゲート
 
