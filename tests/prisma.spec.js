@@ -38,6 +38,36 @@ describe('prisma client module', () => {
     assert.strictEqual(typeof client.workspaceCalendarConfig.findMany, 'function');
   });
 
+  it('should pass DATABASE_URL directly as a string to PrismaMariaDb adapter', () => {
+    // @prisma/adapter-mariadb へオブジェクト形式ではなく URL 文字列を直接渡していることを検証する（回帰防止）
+    const testUrl = 'mysql://root:@localhost:3306/test_db';
+    let receivedAdapterArg;
+    let receivedClientOptions;
+
+    class MockAdapter {
+      constructor(arg) {
+        receivedAdapterArg = arg;
+      }
+    }
+
+    class MockPrismaClient {
+      constructor(opts) {
+        receivedClientOptions = opts;
+      }
+    }
+
+    const client = createPrismaClient({
+      env: { DATABASE_URL: testUrl },
+      AdapterClass: MockAdapter,
+      ClientClass: MockPrismaClient,
+    });
+
+    assert.ok(client instanceof MockPrismaClient);
+    assert.strictEqual(typeof receivedAdapterArg, 'string');
+    assert.strictEqual(receivedAdapterArg, testUrl);
+    assert.ok(receivedClientOptions?.adapter instanceof MockAdapter);
+  });
+
   it('should export singleton prisma instance', () => {
     // モジュールから直接エクスポートされた prisma インスタンスを確認
     assert.ok(prisma);
